@@ -2,11 +2,12 @@ process SEQUALI {
     tag "$meta.ubam"
     label 'process_medium'
     scratch true
+    //stageInMode 'symlink'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'quay.io/biocontainers/sequali:1.0.2--py310h1fe012e_0':
-        'community.wave.seqera.io/library/pip_sequali:7cf7ece924aad25a' }"
+        'community.wave.seqera.io/library/pip_sequali:7cf7ece924aad25a':
+        'quay.io/biocontainers/sequali:1.0.2--py310h7c10099_1' }"
 
     input:
     tuple val(meta), path(reads)

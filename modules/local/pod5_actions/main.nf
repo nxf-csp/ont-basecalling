@@ -2,7 +2,7 @@ process FAST5_TO_POD5 {
     tag "$fast5_file"
     label 'process_low'
     scratch '/dev/shm'
-    array 64
+    //array 64
     stageInMode 'symlink'
     stageOutMode 'move'
 
@@ -41,7 +41,7 @@ process EXTRACT_POD5_METADATA {
     tag "$pod5_file"
     label 'process_low'
     scratch '/dev/shm'
-    array 64
+    //array 64
     stageInMode 'symlink'
     
     conda "${moduleDir}/environment.yml"

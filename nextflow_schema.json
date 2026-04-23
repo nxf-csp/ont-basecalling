@@ -10,7 +10,7 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["input", "outdir", "sample", "basecall_modifications"],
+            "required": ["input", "outdir", "sample"],
             "properties": {
                 "input": {
                     "type": "string",
@@ -43,7 +43,7 @@
                 },
                 "basecall_modifications": {
                     "type": "boolean",
-                    "default": true
+                    "default": false
                 }
             }
         },

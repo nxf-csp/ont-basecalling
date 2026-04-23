@@ -1,5 +1,5 @@
 file
-/raid/kbajbekov/common_share/github/nxf-csp/ont-basecalling/tests/source_files/dna_r941.fast5
-/raid/kbajbekov/common_share/github/nxf-csp/ont-basecalling/tests/source_files/dna_r1041.pod5
-/raid/kbajbekov/common_share/github/nxf-csp/ont-basecalling/tests/source_files/rna_r941_rna002_70bps.fast5
-/raid/kbajbekov/common_share/github/nxf-csp/ont-basecalling/tests/source_files/rna_r1041_rna004_130bps.pod5
+/mnt/cephfs8_rw/nanopore2/service/nextflow/assets/nxf-csp/ont-basecalling/tests/source_files/dna_r941.fast5
+/mnt/cephfs8_rw/nanopore2/service/nextflow/assets/nxf-csp/ont-basecalling/tests/source_files/dna_r1041.pod5
+/mnt/cephfs8_rw/nanopore2/service/nextflow/assets/nxf-csp/ont-basecalling/tests/source_files/rna_r941_rna002_70bps.fast5
+/mnt/cephfs8_rw/nanopore2/service/nextflow/assets/nxf-csp/ont-basecalling/tests/source_files/rna_r1041_rna004_130bps.pod5

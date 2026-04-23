@@ -24,7 +24,7 @@ templates:
   r1041:
     dna:
       basic: |
-        dorado duplex \\
+        dorado basecaller \\
           {args} \\
           --models-directory /models/ \\
           --device cuda:all \\
@@ -33,7 +33,7 @@ templates:
           \$PWD > {ubam_name}
       
       modifications: |
-        dorado duplex \\
+        dorado basecaller \\
           {args} \\
           --models-directory /models/ \\
           --modified-bases {modifications} \\
@@ -90,7 +90,7 @@ templates:
 models:
   r941:
     dna:
-      basic: sup
+      basic: hac
       
       modifications:
         5mCG: sup@v3.3
