@@ -28,9 +28,10 @@ workflow PIPELINE_INITIALISATION {
     version           // boolean: Display version and exit
     validate_params   // boolean: Boolean whether to validate parameters against the schema at runtime
     monochrome_logs   // boolean: Do not use coloured log outputs
-    nextflow_cli_args //   array: List of positional nextflow CLI args
-    outdir            //  string: The output directory where the results will be saved
-    input             //  string: Path to input samplesheet
+    nextflow_cli_args // array: List of positional nextflow CLI args
+    outdir            // string: The output directory where the results will be saved
+    input             // string: Path to input samplesheet
+    input_dir         // string: Path to input directory with POD5/FAST5 files
     help              // boolean: Display help message and exit
     help_full         // boolean: Show the full help message
     show_hidden       // boolean: Show hidden parameters in the help message
@@ -77,6 +78,41 @@ workflow PIPELINE_INITIALISATION {
     // Create channel from input file provided through params.input
     //
 
+    // Create channel from input file or directory //
+    // Validate that either input or input_dir is provided, but not both
+    if (!input && !input_dir) { 
+        error("ERROR: Either --input or --input_dir must be specified!") 
+        }
+    if (input && input_dir) {
+        error("ERROR: Please specify only one of --input or --input_dir, not both!") 
+        }
+    
+    // Create channel based on input type 
+    if (input) { 
+        // CSV samplesheet mode 
+        Channel
+        .fromList(samplesheetToList(input, "${projectDir}/assets/schema_input.json"))
+        .map { row -> 
+            def file = row[0]
+            def meta = [:]
+            meta.sample = params.sample
+            return [meta, file] 
+        }
+        .set { ch_samplesheet }
+
+        } else {
+
+        // Directory mode 
+        Channel
+        .fromPath("${input_dir}/*.{pod5,fast5}")
+        .map { file -> 
+            def meta = [:]
+            meta.sample = params.sample
+            return [meta, file] 
+        }
+        .set { ch_samplesheet }
+        }
+    /*
     Channel
         .fromList(samplesheetToList(params.input, "${projectDir}/assets/schema_input.json"))
         .map { row ->
@@ -86,7 +122,7 @@ workflow PIPELINE_INITIALISATION {
             return [meta, file]
         }
         .set { ch_samplesheet }
-
+    */
     emit:
     samplesheet = ch_samplesheet
     versions    = ch_versions
