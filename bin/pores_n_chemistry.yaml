@@ -1,0 +1,52 @@
+flow_cell:
+  FLO-PRO002: 
+    experiment_type: dna
+    pore: r941
+
+  FLO-MIN106:
+    experiment_type: dna
+    pore: r941
+
+  FLO-MIN114: 
+    experiment_type: dna
+    pore: r1041
+
+  FLO-FLG114:
+    experiment_type: dna
+    pore: r1041
+
+  FLO-PRO114M:
+    experiment_type: dna
+    pore: r1041
+
+  FLO-MIN004RA: 
+    experiment_type: rna
+    pore: rp4
+
+sequencing_kit:
+  sqk-lsk109: 
+    pore_speed: e8
+
+  sqk-lsk114: 
+    pore_speed: e8.2
+  
+  sqk-rad114: 
+    pore_speed: e8.2
+  
+  sqk-ulk114: 
+    pore_speed: e8.2
+  
+  sqk-rbk114.24: 
+    pore_speed: e8.2
+  
+  sqk-nbd114.24: 
+    pore_speed: e8.2
+  
+  sqk-rpb114.24: 
+    pore_speed: e8.2
+
+  sqk-rna002:
+    pore_speed: 70bps
+
+  sqk-rna004:
+    pore_speed: 130bps
