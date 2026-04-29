@@ -2,13 +2,13 @@
 
 from sys import argv
 from pod5 import Reader
-from json import dumps
+from json import dumps, load as json_load
 from yaml import safe_load
 from pathlib import Path
 
 version = '1.0.1'
 
-def load_yaml(
+def _load_yaml(
               file_path:Path,
               encoding:str = "utf-8",
               subsection:str = ''
@@ -39,7 +39,8 @@ def load_yaml(
    
     return data
 
-ont_kits = load_yaml(Path(__file__).parent / 'pores_n_chemistry.yaml')
+with open(Path(__file__).parent / 'pores_n_chemistry.json', 'r') as json:
+    ont_kits = json_load(json)
 
 def read_pod5(pod5_file:str) -> dict:
     metadata = {}
