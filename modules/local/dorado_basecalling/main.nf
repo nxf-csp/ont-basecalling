@@ -26,7 +26,7 @@ process PREPARE_BASECALLING_COMMANDS {
     def baseTemplate = meta.pore == 'r941' ?
         config.templates[meta.pore].basic :
         config.templates[meta.pore][meta.experiment_type].basic
-    def ubam_name = "${params.sample}:basic:${meta.experiment_type}_${meta.pore}.ubam"
+    def ubam_name = "${params.sample}-basic-${meta.experiment_type}-${meta.pore}.ubam"
     def modConfig = meta.experiment_type == 'dna' ? 
         config.models[meta.pore].dna : 
         config.models[meta.pore].rna[meta.pore_speed]
@@ -45,7 +45,7 @@ process PREPARE_BASECALLING_COMMANDS {
             config.templates[meta.pore].modifications :
             config.templates[meta.pore][meta.experiment_type].modifications
         modConfig.modifications.each { modName, modModel ->
-            def mod_ubam_name = "${params.sample}:${modName.replaceAll(',','-')}:${meta.experiment_type}_${meta.pore}.ubam"
+            def mod_ubam_name = "${params.sample}-${modName.replaceAll(',','_')}-${meta.experiment_type}-${meta.pore}.ubam"
             def modCommand = modTemplate
                                 .replace('\n', '')
                                 .replace('\\', '')

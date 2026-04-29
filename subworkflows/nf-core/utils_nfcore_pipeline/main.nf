@@ -326,13 +326,13 @@ def completionEmail(summary_params, email, email_on_fail, plaintext_email, outdi
     // Write summary e-mail HTML to a file
     def output_hf = new File(workflow.launchDir.toString(), ".pipeline_report.html")
     output_hf.withWriter { w -> w << email_html }
-    nextflow.extension.FilesEx.copyTo(output_hf.toPath(), "${outdir}/logs/nextflow/${params.run_id}_pipeline_report.html")
+    nextflow.extension.FilesEx.copyTo(output_hf.toPath(), "${outdir}/logs/nextflow/${params.sample}-pipeline_report.html")
     output_hf.delete()
 
     // Write summary e-mail TXT to a file
     def output_tf = new File(workflow.launchDir.toString(), ".pipeline_report.txt")
     output_tf.withWriter { w -> w << email_txt }
-    nextflow.extension.FilesEx.copyTo(output_tf.toPath(), "${outdir}/logs/nextflow/${params.run_id}_pipeline_report.txt")
+    nextflow.extension.FilesEx.copyTo(output_tf.toPath(), "${outdir}/logs/nextflow/${params.sample}-pipeline_report.txt")
     output_tf.delete()
 }
 

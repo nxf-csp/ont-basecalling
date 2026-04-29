@@ -1,5 +1,5 @@
 process FAST5_TO_POD5 {
-    tag "$fast5_file"
+    tag "${file(fast5_file).getName()}"
     label 'process_low'
     containerOptions "-v ${file(fast5_file).parent}:${file(fast5_file).parent}"
     stageOutMode 'move'
@@ -36,7 +36,7 @@ process FAST5_TO_POD5 {
 
 
 process EXTRACT_POD5_METADATA {
-    tag "$pod5_file"
+    tag "${file(pod5_file).getName()}"
     label 'process_low'
     containerOptions "-v ${file(pod5_file).parent}:${file(pod5_file).parent}"
     

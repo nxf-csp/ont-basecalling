@@ -152,10 +152,5 @@
             "$ref": "#/$defs/generic_options"
         }
     ],
-    "properties": {
-        "run_id": {
-            "type": "string",
-            "default": "sample:basecalling"
-        }
-    }
+    "properties": {}
 }

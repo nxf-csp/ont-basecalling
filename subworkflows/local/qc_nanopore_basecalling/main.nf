@@ -35,7 +35,7 @@ workflow QC_NANOPORE_BASECALLING {
     softwareVersionsToYAML(ch_versions)
         .collectFile(
             storeDir: "${params.outdir}/logs/nextflow",
-            name:  "${params.run_id}_" + 'software_'  + 'mqc_'  + 'versions.yml',
+            name:  "${params.sample}-" + 'software_'  + 'mqc_'  + 'versions.yml',
             sort: true,
             newLine: true
         ).set { ch_collated_versions }
