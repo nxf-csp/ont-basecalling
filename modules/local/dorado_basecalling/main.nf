@@ -13,10 +13,10 @@ process PREPARE_BASECALLING_COMMANDS {
     label 'process_low'
 
     input:
-    tuple val(meta), path(files)
+    tuple val(meta), val(files)
     
     output:
-    tuple val(meta), path(files), path("tasks_*.json"), emit: tasks
+    tuple val(meta), val(files), path("tasks_*.json"), emit: tasks
 
     script:
     def yamlFile = file("${moduleDir}/modifications_and_models.yaml")
@@ -79,7 +79,7 @@ process DORADO_BASECALLING {
     stageInMode 'symlink'
 
     conda "${moduleDir}/environment.yml"
-    container 'nanoporetech/dorado:latest'  // базовый контейнер
+    container 'nanoporetech/dorado:shae423e761540b9d08b526a1eb32faf498f32e8f22'  // базовый контейнер
     
 
     input:
@@ -97,7 +97,6 @@ process DORADO_BASECALLING {
     task.container = meta.pore == 'r941' ? 'nanoporetech/dorado:sha268dcb4cd02093e75cdc58821f8b93719c4255ed' :
                  meta.pore in ['r1041', 'rp4'] ? 'nanoporetech/dorado:shaf2aed69855de85e60b363c9be39558ef469ec365' :
                  'nanoporetech/dorado:latest' 
-    // если продвинутый dorado не заработает: nanoporetech/dorado:shae423e761540b9d08b526a1eb32faf498f32e8f22
 
     def dorado_cmd = meta.command
     def tag = "BASECALLING_${file(meta.ubam).baseName.replaceAll(':', '_')}"

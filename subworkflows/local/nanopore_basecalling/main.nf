@@ -23,12 +23,12 @@ include { PREPARE_BASECALLING_COMMANDS; DORADO_BASECALLING } from '../../../modu
 
 workflow NANOPORE_BASECALLING {
     take:
-    ch_samplesheet // channel: samplesheet read in from --input
+    input_files // read in from --input/--input_dir
     ch_versions
     main:
 
     // Разбиваем входные файлы по расширениям
-    ch_samplesheet.branch {_meta, file ->
+    input_files.branch {_meta, file ->
     fast5: file.toString().endsWith('.fast5')
     pod5: file.toString().endsWith('.pod5')}
     .set { ch_branched }
@@ -40,12 +40,22 @@ workflow NANOPORE_BASECALLING {
             }
             .flatten()
             .collate(2)
+
+    // Для предотвращения копирования файлов конвертируем PATH=>String
+    ch_size_sorted_fast5_str = ch_size_sorted_fast5_files.map {
+        meta, path -> [meta, path.toString()]
+    }
     
     // Конвертируем FAST5=>POD5
-    FAST5_TO_POD5(ch_size_sorted_fast5_files)
+    FAST5_TO_POD5(ch_size_sorted_fast5_str)
 
     // Создаём общий канал pod5
     ch_pod5_files = ch_branched.pod5.mix(FAST5_TO_POD5.out.pod5)
+
+    // Для предотвращения копирования файлов конвертируем PATH=>String
+    ch_pod5_str = ch_pod5_files.map {
+        meta, path -> [meta, path.toString()]
+    }
 
     // Извлекаем метаданные
     EXTRACT_POD5_METADATA(ch_pod5_files)
@@ -54,14 +64,15 @@ workflow NANOPORE_BASECALLING {
             new groovy.json.JsonSlurper().parseText(json_data) : 
             json_data
         def enriched_meta = meta + extracted
-        [enriched_meta, pod5_file]
+        [enriched_meta, file(pod5_file)]
     }
-    .set { ch_pod5_with_enriched_meta }
+    .set { ch_str_pod5_with_enriched_meta }
+
 
     // Метаданные файлов будут сохранены в отдельную таблицу
-    ch_source_file_meta = ch_pod5_with_enriched_meta.map { meta, pod5_file -> 
+    ch_source_file_meta = ch_str_pod5_with_enriched_meta.map { meta, pod5_file_str -> 
         def source_file_meta = [
-            file_basename: pod5_file.baseName,
+            file_basename: file(pod5_file_str).baseName,
             created:meta.created,
             sample_frequency:meta.sample_frequency,
             sequencing_kit:meta.sequencing_kit,
@@ -86,9 +97,10 @@ workflow NANOPORE_BASECALLING {
         newLine: true, 
         seed: "file_basename\tcreated\tsample_frequency\tsequencing_kit\texperiment_type\tpore\tpore_speed\tflow_cell\tsequencer_type"
     )
+
     
     // Создаём группы файлов по поре, типу исходных молекул, использованных китов (в случае с РНК), характеристикам работы пор
-    grouped_pod5s = ch_pod5_with_enriched_meta.map { meta, file ->
+    grouped_pod5s = ch_str_pod5_with_enriched_meta.map { meta, file ->
         def groupKey = [
             experiment_type: meta.experiment_type,
             pore: meta.pore,
@@ -121,8 +133,12 @@ workflow NANOPORE_BASECALLING {
             [taskMeta, files]
         }
 
+    // String=>PATH
+    ch_basecalling_tasks_files = ch_basecalling_tasks.map { meta, files_str ->
+        [meta, files_str.collect {file(it)}]
+    }
     // Проводим бейсколлинг
-    DORADO_BASECALLING(ch_basecalling_tasks)
+    DORADO_BASECALLING(ch_basecalling_tasks_files)
 
     ch_versions = ch_versions
                     .mix(FAST5_TO_POD5.out.versions)
