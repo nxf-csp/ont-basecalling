@@ -3,12 +3,12 @@
 from sys import argv
 from pod5 import Reader
 from json import dumps, load as json_load
-from yaml import safe_load
+#from yaml import safe_load
 from pathlib import Path
 
 version = '1.0.1'
-
-def _load_yaml(
+'''
+def load_yaml(
               file_path:Path,
               encoding:str = "utf-8",
               subsection:str = ''
@@ -38,7 +38,7 @@ def _load_yaml(
         data = data[subsection]
    
     return data
-
+'''
 with open(Path(__file__).parent / 'pores_n_chemistry.json', 'r') as json:
     ont_kits = json_load(json)
 
