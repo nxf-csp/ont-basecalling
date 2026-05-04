@@ -29,6 +29,9 @@ sequencing_kit:
 
   sqk-lsk114: 
     pore_speed: e8.2
+
+  sqk-lsk114-xl: 
+    pore_speed: e8.2
   
   sqk-rad114: 
     pore_speed: e8.2
