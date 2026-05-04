@@ -1,6 +1,6 @@
 from yaml import safe_load
 from pathlib import Path
-from json import dumps, load
+from json import dumps
 
 
 version = '1.0.1'
@@ -37,4 +37,4 @@ def load_yaml(
     return data
 
 
-print(dumps(load_yaml(Path(__file__).parent / 'pores_n_chemistry.yaml')))
+print(dumps(load_yaml(Path(__file__).parent / 'pores_n_chemistry.yaml'), sort_keys=True, indent=2))
