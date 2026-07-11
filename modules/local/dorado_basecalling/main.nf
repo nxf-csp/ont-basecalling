@@ -77,7 +77,7 @@ process DORADO_BASECALLING {
     cpus 32
     memory 64
     stageInMode 'symlink'
-
+    cache 'lenient'
     conda "${moduleDir}/environment.yml"
     container 'nanoporetech/dorado:shae423e761540b9d08b526a1eb32faf498f32e8f22'  // базовый контейнер
     
