@@ -106,7 +106,7 @@ process DORADO_BASECALLING {
     samtools view \\
     -H ${meta.ubam} \\
     | grep -oP \\
-    'basecall_model=\\K[^ ]+' \\
+    'basecall_model=\\K\\S+' \\
     | head -1 \\
     > ${file(meta.ubam).baseName}_used_model.txt
 
@@ -116,3 +116,12 @@ process DORADO_BASECALLING {
     END_VERSIONS
     """
 }
+
+/*
+samtools view \\
+    -H ${meta.ubam} \\
+    | grep -oP \\
+    'basecall_model=\\K[^ ]+' \\
+    | head -1 \\
+    > ${file(meta.ubam).baseName}_used_model.txt
+*/
